@@ -1,7 +1,6 @@
 # CSV to Barcode Converter
 
 ![Python](https://img.shields.io/badge/Python-3.x-blue)
-![License](https://img.shields.io/badge/License-MIT-green)
 
 ## 📌 Descrição
 Este projeto permite converter dados de uma planilha CSV em códigos de barras. Ele gera imagens no formato PNG e exporta um novo arquivo CSV contendo os códigos de barras correspondentes.
