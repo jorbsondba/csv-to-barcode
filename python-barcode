@@ -1,0 +1,33 @@
+import pandas as pd
+import barcode
+from barcode.writer import ImageWriter
+
+# Carregar CSV original
+arquivo_csv = "dados.csv"  # Substitua pelo caminho do seu arquivo CSV
+df = pd.read_csv(arquivo_csv)
+
+# Escolha as colunas que deseja converter para código de barras
+coluna_para_codigo = "codigo_produto"  # Ajuste conforme necessário
+
+# Criar uma lista para armazenar os caminhos dos códigos de barras gerados
+caminhos_codigos = []
+
+# Gerar códigos de barras
+for idx, valor in enumerate(df[coluna_para_codigo]):
+    codigo = str(valor)  # Garante que o valor seja uma string
+    ean = barcode.get_barcode_class("code128")  # Escolhe o formato do código de barras
+    codigo_barra = ean(codigo, writer=ImageWriter())
+    
+    caminho_imagem = f"codigos/{codigo}.png"  # Pasta para salvar os códigos
+    codigo_barra.save(caminho_imagem)
+    
+    caminhos_codigos.append(caminho_imagem)
+
+# Criar novo DataFrame com as informações necessárias
+df_novo = df[[coluna_para_codigo]].copy()
+df_novo["caminho_codigo_barras"] = caminhos_codigos
+
+# Salvar novo CSV
+df_novo.to_csv("dados_codigos.csv", index=False)
+
+print("Processo concluído! Código de barras gerados e salvos no novo CSV.")
